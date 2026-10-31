@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import Mark from '../../components/Mark.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE, readMinutes, shortDate } from '../../site';
+
+export async function getStaticPaths() {
+  const notes = (await getCollection('notes', ({ data }) => !data.draft))
+    .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+  return notes.map((note, i) => ({
+    params: { slug: note.id },
+    props: { note, prev: notes[i - 1], next: notes[i + 1] },
+  }));
+}
+
+const { note, prev, next } = Astro.props;
+const { Content } = await render(note);
+const d = note.data;
+---
+<Base title={d.title} description={d.description} image={d.hero} imageAlt={d.heroAlt} type="article">
+  <article class="post">
+    <header class="post-head">
+      <a class="back" href="/">← Every Lab Note</a>
+      <div class="tag">Lab Note #{d.number} · <time datetime={d.date.toISOString().slice(0, 10)}>{shortDate(d.date)}</time> · {readMinutes(note.body ?? '')} min read</div>
+      <h1>{d.title}</h1>
+      <div class="byline"><Mark size={36} /> <span>Kyle Prins</span></div>
+      <img class="post-hero" src={d.hero} alt={d.heroAlt} width="1200" height="627">
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    <a class="talk" href={d.linkedin ?? SITE.linkedin}>Join the conversation on LinkedIn</a>
+  </article>
+  {(prev || next) && (
+    <nav class="pager" aria-label="More Lab Notes">
+      {prev && (
+        <a href={`/notes/${prev.id}/`}>
+          <span class="tag">← Lab Note #{prev.data.number}</span>
+          <span class="title">{prev.data.title}</span>
+        </a>
+      )}
+      {next && (
+        <a href={`/notes/${next.id}/`}>
+          <span class="tag">Lab Note #{next.data.number} →</span>
+          <span class="title">{next.data.title}</span>
+        </a>
+      )}
+    </nav>
+  )}
+</Base>

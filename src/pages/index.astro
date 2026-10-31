@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import Mark from '../components/Mark.astro';
+import { getCollection } from 'astro:content';
+import { SITE, readMinutes, shortDate } from '../site';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latest = notes[0];
+const topics = ['Security', 'Observability', 'Data pipelines', 'AI', 'Wife Approval Factor'];
+---
+<Base>
+  <section class="hero night">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="tag">Lab Notes</div>
+        <h1>A Splunker dusting off his home lab, one Tuesday at a time.</h1>
+        <p>Short notes on what I built, what broke, what you can try in your own lab, and why the same lesson shows up at work.</p>
+        <ul class="chips" aria-label="Topics">
+          {topics.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+      {latest ? (
+        <a class="glass-card" href={`/notes/${latest.id}/`}>
+          <img src={latest.data.hero} alt={latest.data.heroAlt} width="1200" height="627">
+          <span class="meta">
+            <span class="tag">Latest · Lab Note #{latest.data.number}</span>
+            <span>{shortDate(latest.data.date)} · {readMinutes(latest.body ?? '')} min read</span>
+          </span>
+        </a>
+      ) : (
+        <div class="glass-card soon">
+          <span class="status">Lab is warming up</span>
+          <span class="big">The first Lab Note is on its way.</span>
+          <p>Follow along on <a href={SITE.linkedin} style="color: var(--white)">LinkedIn</a>, or add the RSS feed so it shows up the day it lands.</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <main class="home wrap">
+    <section aria-labelledby="every">
+      <div class="section-head">
+        <h2 id="every">Every Lab Note</h2>
+        <span>New ones on Tuesdays</span>
+      </div>
+      {notes.length ? (
+        <ul class="note-list">
+          {notes.map((n) => (
+            <li>
+              <a class="note-row" href={`/notes/${n.id}/`}>
+                <img src={n.data.hero} alt="" width="1200" height="627" loading="lazy">
+                <span class="body">
+                  <span class="tag">Lab Note #{n.data.number} · {shortDate(n.data.date)}</span>
+                  <span class="title">{n.data.title}</span>
+                  <span class="desc">{n.data.description}</span>
+                  <span class="small">{readMinutes(n.body ?? '')} min read{n.data.topic ? ` · ${n.data.topic}` : ''}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty">Nothing here yet. The first one is coming soon.</p>
+      )}
+    </section>
+
+    <div class="boxes">
+      <div class="box">
+        <span class="tag">Fridays on LinkedIn</span>
+        <h3>Lab Bites</h3>
+        <p>One number, one fix, one tip, from the same week's Lab Note.</p>
+        <a href={SITE.linkedin}>Follow on LinkedIn →</a>
+      </div>
+      <div class="box" id="rss">
+        <span class="tag">No algorithm required</span>
+        <h3>Get every Lab Note</h3>
+        <p>Add the RSS feed to your reader. No sign-up, no pop-up, no tracking.</p>
+        <a href="/rss.xml"><code>kyleprins.com/rss.xml</code></a>
+      </div>
+    </div>
+
+    <section class="about night" id="about" aria-labelledby="about-title">
+      <Mark size={120} class="mark" />
+      <div class="text">
+        <span class="tag">About</span>
+        <h2 id="about-title">Hi, I'm Kyle.</h2>
+        <p>I work at Splunk, a Cisco company, and spend my days talking security, observability and AI with people who run very large systems. At home I run a much smaller one. Busy dad, owner of more sensors than any family needs.</p>
+        <p class="fine">I work at Splunk. Views are my own.</p>
+      </div>
+    </section>
+  </main>
+</Base>

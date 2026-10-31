@@ -1,0 +1,11 @@
+---
+// The Lab Notes mark: a Mac mini slab with its status light on.
+interface Props { size?: number; label?: string; class?: string }
+const { size = 36, label, class: className } = Astro.props;
+---
+<svg class={className} width={size} height={size} viewBox="0 0 96 96" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+  <rect width="96" height="96" rx="24" fill="#312e81"></rect>
+  <rect x="16" y="38" width="64" height="22" rx="7" fill="#e5e7eb"></rect>
+  <circle cx="70" cy="49" r="7" fill="#34d399" opacity=".25"></circle>
+  <circle cx="70" cy="49" r="3.4" fill="#34d399"></circle>
+</svg>
