@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Mark from '../../components/Mark.astro';
 import { getCollection, render } from 'astro:content';
 import { SITE, readMinutes, shortDate } from '../../site';
 
@@ -23,7 +22,7 @@ const d = note.data;
       <a class="back" href="/">← Every Lab Note</a>
       <div class="tag">Lab Note #{d.number} · <time datetime={d.date.toISOString().slice(0, 10)}>{shortDate(d.date)}</time> · {readMinutes(note.body ?? '')} min read</div>
       <h1>{d.title}</h1>
-      <div class="byline"><Mark size={36} /> <span>Kyle Prins</span></div>
+      <div class="byline"><img src="/kyle-96.jpg" alt="" width="96" height="96"> <span>Kyle Prins</span></div>
       <img class="post-hero" src={d.hero} alt={d.heroAlt} width="1200" height="627">
     </header>
     <div class="prose">
