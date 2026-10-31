@@ -14,7 +14,7 @@ const topics = ['Security', 'Observability', 'Data pipelines', 'AI', 'Wife Appro
     <div class="wrap">
       <div class="hero-copy">
         <div class="tag">Lab Notes</div>
-        <h1>A Splunker dusting off his home lab, one Tuesday at a time.</h1>
+        <h1>A Splunker dusting off his home lab, one project at a time.</h1>
         <p>Short notes on what I built, what broke, what you can try in your own lab, and why the same lesson shows up at work.</p>
         <ul class="chips" aria-label="Topics">
           {topics.map((t) => <li>{t}</li>)}
@@ -42,7 +42,7 @@ const topics = ['Security', 'Observability', 'Data pipelines', 'AI', 'Wife Appro
     <section aria-labelledby="every">
       <div class="section-head">
         <h2 id="every">Every Lab Note</h2>
-        <span>New ones on Tuesdays</span>
+        <span>Newest first</span>
       </div>
       {notes.length ? (
         <ul class="note-list">
@@ -67,9 +67,9 @@ const topics = ['Security', 'Observability', 'Data pipelines', 'AI', 'Wife Appro
 
     <div class="boxes">
       <div class="box">
-        <span class="tag">Fridays on LinkedIn</span>
+        <span class="tag">On LinkedIn</span>
         <h3>Lab Bites</h3>
-        <p>One number, one fix, one tip, from the same week's Lab Note.</p>
+        <p>The short versions: one number, one fix, one tip.</p>
         <a href={SITE.linkedin}>Follow on LinkedIn →</a>
       </div>
       <div class="box" id="rss">
