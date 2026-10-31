@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Mark from '../components/Mark.astro';
 import { getCollection } from 'astro:content';
 import { SITE, readMinutes, shortDate } from '../site';
 
@@ -81,7 +80,7 @@ const topics = ['Security', 'Observability', 'Data pipelines', 'AI', 'Wife Appro
     </div>
 
     <section class="about night" id="about" aria-labelledby="about-title">
-      <Mark size={120} class="mark" />
+      <img class="photo" src="/kyle.jpg" alt="Kyle Prins, smiling, in a black t-shirt" width="360" height="360">
       <div class="text">
         <span class="tag">About</span>
         <h2 id="about-title">Hi, I'm Kyle.</h2>

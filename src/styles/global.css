@@ -129,7 +129,7 @@ main.home { display: grid; gap: 48px; padding-block: 64px 24px; }
 .box a { font-weight: 700; padding: 8px 0; }
 .box code { font-family: var(--mono); font-size: 15px; }
 .about { display: flex; flex-wrap: wrap; gap: 36px; align-items: center; padding: 40px; border-radius: 28px; }
-.about .mark { flex: 0 0 auto; width: 120px; height: 120px; }
+.about .photo { flex: 0 0 auto; width: 132px; height: 132px; border-radius: 28px; object-fit: cover; border: 1px solid var(--glass-line); box-shadow: 0 20px 50px rgba(0,0,0,.35); }
 .about .text { flex: 1 1 420px; min-width: 0; display: grid; gap: 10px; }
 .about h2 { margin: 0; font-size: 28px; font-weight: 800; }
 .about p { margin: 0; max-width: 36em; }
@@ -141,7 +141,7 @@ main.home { display: grid; gap: 48px; padding-block: 64px 24px; }
 .post-head h1 { margin: 0; font-size: clamp(32px, 5vw, 46px); font-weight: 800; letter-spacing: -.01em; line-height: 1.08; }
 .back { font-size: 15px; font-weight: 600; text-decoration: none; }
 .byline { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--ink-soft); }
-.byline svg { width: 36px; height: 36px; }
+.byline img { width: 36px; height: 36px; border-radius: 10px; object-fit: cover; }
 .post-hero { border-radius: 20px; margin: 8px 0; }
 .prose { font-size: 19px; }
 .prose > * { margin: 0; }
