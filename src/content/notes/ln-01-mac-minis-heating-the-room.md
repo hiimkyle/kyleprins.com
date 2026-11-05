@@ -6,6 +6,7 @@ description: I work at Splunk. Until recently, the Splunk environment in my own 
 hero: /notes/ln-01/hero.png
 heroAlt: "Title card: My Mac Minis Were Just Heating the Room, with three stacked Mac minis giving off heat"
 topic: The series
+linkedin: https://www.linkedin.com/posts/kyleprins_i-work-at-splunk-until-recently-the-splunk-share-7524122295620100097-V1Fm/
 ---
 
 Confession time. I work at Splunk. I get to spend my days with some of the best and brightest Splunkers on the planet. And until recently, the Splunk environment in my own house was... let's call it decorative.
