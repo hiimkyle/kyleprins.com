@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const published = new Set((await getCollection('notes', ({ data }) => !data.draft)).map((n) => n.data.number));
+const parts = [
+  { part: 'Why the lab exists at all', notes: [[1, 'ln-01-mac-minis-heating-the-room', 'My Mac Minis Were Just Heating the Room']] },
+  { part: 'Home Assistant', notes: [[2, 'ln-02-1775-things', 'My House Was Tracking 1,775 Things That No Longer Existed'], [3, 'ln-03-waf-report', 'The WAF Report'], [5, 'ln-05-fifteen-sensors', 'Nothing Was Below 20%. Fifteen Sensors Were Already Dead.']] },
+  { part: 'The AI pair', notes: [[4, 'ln-04-ai-refactor-leash', "I Let an AI Refactor My House. Here's the Leash."], [8, 'ln-08-ai-agent-took-down-siem', 'My AI Agent Took Down My SIEM']] },
+  { part: 'Splunk', notes: [[6, 'ln-06-floor-lamp-20-percent', 'One Floor Lamp Was 20% of My Home Assistant Data'], [7, 'ln-07-didnt-drag-a-panel', "I Didn't Drag a Single Panel"], [9, 'ln-09-fell-for-the-default', 'I Work at Splunk and Still Fell for the Default'], [10, 'ln-10-events-from-the-future', 'Some of My Security Events Were From the Future']] },
+];
+const shown = parts
+  .map(({ part, notes }) => ({ part, notes: notes.filter(([n]) => published.has(n as number)) }))
+  .filter(({ notes }) => notes.length);
+---
+<Base title="The Lab" description="What's running in Kyle Prins's home lab, at the level of detail that's safe to share: the hardware, what talks to what, and the open-source tools behind it.">
+  <article class="post lab">
+    <header class="post-head">
+      <div class="tag">The Lab</div>
+      <h1>What's running in my house</h1>
+      <p class="lab-lede">The setup behind every Lab Note, so the posts can skip the introductions. It leaves out addresses, versions and the models of anything that guards the house, on purpose. Those are a map for the wrong people.</p>
+    </header>
+
+    <div class="prose">
+      <h2>The hardware</h2>
+      <ul>
+        <li><strong>A three-node Proxmox cluster</strong> on three Mac minis. They used to mostly heat the room. Now they run the Splunk instance, a backup server and a few other machines.</li>
+        <li><strong>A fourth Mac mini running Home Assistant OS.</strong> It runs the house: lights, locks, sensors, the record player, bedtime.</li>
+        <li><strong>A Synology DS1522+ NAS</strong> running about two dozen containers: media apps, recipes, books, the reverse proxy, the OpenTelemetry collector, and a container manager that keeps them updated.</li>
+        <li><strong>The gateway</strong>, which holds the house's DNS names and sends flow data and security events to Splunk, plus a switch.</li>
+        <li><strong>Radios:</strong> Zigbee and Z-Wave sticks and a Hue bridge, plus plenty of Wi-Fi gadgets.</li>
+        <li><strong>A Raspberry Pi running <a href="https://falconchristmas.com/">Falcon Player</a></strong>, which drives the light show.</li>
+        <li>Cameras, locks and more sensors than any family needs. No models for those, for the same reason as above.</li>
+      </ul>
+
+      <h2>What talks to what</h2>
+      <figure class="lab-map">
+        <svg viewBox="0 0 880 500" role="img" aria-labelledby="map-title map-desc">
+          <title id="map-title">How data moves through the lab</title>
+          <desc id="map-desc">Devices and radios feed Home Assistant, which sends every state change to Splunk. The gateway sends flows and security events to Splunk. The reverse proxy sends its logs to Splunk. The OpenTelemetry collector sends container, host and proxy metrics to Splunk. Splunk alerts go back through Home Assistant to a phone.</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" class="map-arrowhead" />
+            </marker>
+          </defs>
+          <g class="map-lines">
+            <path d="M190 70 H326" marker-end="url(#arrow)" />
+            <path d="M470 70 H636" marker-end="url(#arrow)" />
+            <path d="M190 160 H636" marker-end="url(#arrow)" />
+            <path d="M190 250 H636" marker-end="url(#arrow)" />
+            <path d="M190 340 H326" marker-end="url(#arrow)" />
+            <path d="M470 340 H636" marker-end="url(#arrow)" />
+            <path d="M740 370 V450 H474" marker-end="url(#arrow)" />
+          </g>
+          <g class="map-labels">
+            <text x="553" y="60">every state change</text>
+            <text x="413" y="150">flows and security events</text>
+            <text x="413" y="240">logs</text>
+            <text x="553" y="330">metrics</text>
+            <text x="610" y="442">alerts</text>
+          </g>
+          <g class="map-nodes">
+            <rect x="20" y="40" width="170" height="60" rx="14" /><text x="105" y="76">Devices and radios</text>
+            <rect x="330" y="40" width="140" height="60" rx="14" class="ha" /><text x="400" y="76">Home Assistant</text>
+            <rect x="20" y="130" width="170" height="60" rx="14" /><text x="105" y="166">Gateway</text>
+            <rect x="20" y="220" width="170" height="60" rx="14" /><text x="105" y="256">Reverse proxy</text>
+            <rect x="20" y="310" width="170" height="60" rx="14" /><text x="105" y="337">NAS containers</text>
+            <text x="105" y="356" class="small">and the proxy</text>
+            <rect x="330" y="310" width="140" height="60" rx="14" /><text x="400" y="337">OpenTelemetry</text>
+            <text x="400" y="356" class="small">collector</text>
+            <rect x="640" y="40" width="200" height="330" rx="18" class="splunk" />
+            <text x="740" y="197" class="big">Splunk</text>
+            <text x="740" y="221" class="small on-dark">dashboards and alerts</text>
+            <rect x="330" y="425" width="140" height="50" rx="14" class="phone" /><text x="400" y="456">My phone</text>
+          </g>
+        </svg>
+        <figcaption>Splunk's alerts reach my phone through Home Assistant. Home Assistant also hands a curated list of devices to Apple Home, which is how Siri works with the house.</figcaption>
+      </figure>
+
+      <h2>The tools I lean on</h2>
+      <p>Credit where it's due. Most of this is free and open source, and all of it has a better manual than I do.</p>
+      <ul>
+        <li><a href="https://www.proxmox.com/">Proxmox VE</a> for the cluster, and Proxmox Backup Server.</li>
+        <li><a href="https://www.home-assistant.io/">Home Assistant</a>, with Zigbee, Z-Wave JS and Music Assistant, and the HomeKit Bridge for Apple Home.</li>
+        <li><a href="https://www.splunk.com/">Splunk Enterprise</a> with Splunk Stream for network flows and the Splunk OpenTelemetry Collector for metrics. Yes, I work there.</li>
+        <li><a href="https://traefik.io/">Traefik</a> and <a href="https://letsencrypt.org/">Let's Encrypt</a>, so every app in the house has a real certificate.</li>
+        <li>Git for every config change, and an AI pair that does a lot of the typing. It's on a leash: dry runs first, scoped changes, and no secrets in the repo.</li>
+      </ul>
+
+      <h2>The rules</h2>
+      <p>Don't break the lights, the locks or bedtime. Use AI, but stay the architect. Write down what was hard. If an alert has never fired, test it by breaking something on purpose.</p>
+
+      <h2>Lab Notes by part</h2>
+      <ul class="lab-notes">
+        {shown.map(({ part, notes }) => notes.map(([, slug, title]) => (
+          <li><span class="tag">{part}</span><a href={`/notes/${slug}/`}>{title}</a></li>
+        )))}
+      </ul>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .lab-lede { margin: 0; color: var(--ink-soft); font-size: 19px; max-width: 40em; }
+  .lab .prose ul { padding-left: 22px; }
+  .lab .prose li strong { color: var(--ink); }
+  .lab-map { margin: 1.2em 0 0; padding: 20px; border-radius: 20px; background: var(--raised); border: 1px solid var(--rule); overflow-x: auto; }
+  .lab-map svg { width: 100%; min-width: 560px; height: auto; display: block; }
+  .lab-map figcaption { font-size: 15px; color: var(--ink-soft); margin-top: 10px; }
+  .map-lines path { fill: none; stroke: var(--link); stroke-width: 2; opacity: .75; }
+  .map-arrowhead { fill: var(--link); }
+  .map-labels text { font-size: 13px; fill: var(--ink-soft); text-anchor: middle; font-family: var(--sans); }
+  .map-nodes rect { fill: var(--paper); stroke: var(--rule); stroke-width: 1.5; }
+  .map-nodes rect.ha { stroke: var(--link); stroke-width: 2; }
+  .map-nodes rect.splunk { fill: #312e81; stroke: #312e81; }
+  .map-nodes rect.phone { stroke: #34d399; stroke-width: 2; }
+  .map-nodes text { font-size: 15px; font-weight: 700; fill: var(--ink); text-anchor: middle; font-family: var(--sans); }
+  .map-nodes text.small { font-size: 12px; font-weight: 400; fill: var(--ink-soft); }
+  .map-nodes text.big { font-size: 26px; font-weight: 800; fill: #ffffff; }
+  .map-nodes text.on-dark { fill: #c7d2fe; }
+  .lab-notes { list-style: none; padding-left: 0 !important; display: grid; gap: 12px; }
+  .lab-notes li { display: grid; gap: 2px; }
+</style>

@@ -55,6 +55,7 @@ const path = Astro.url.pathname;
       </a>
       <nav class="site-nav" aria-label="Main">
         <a href="/" aria-current={path === '/' ? 'page' : undefined}>Lab Notes</a>
+        <a href="/lab/" aria-current={path.startsWith('/lab') ? 'page' : undefined}>The Lab</a>
         <a href="/#about">About</a>
         <a href="/rss.xml">RSS</a>
         <a href={SITE.linkedin}>LinkedIn</a>
