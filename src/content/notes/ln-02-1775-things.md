@@ -6,6 +6,7 @@ description: Before I could dive into the lab, I had to get the smart home healt
 hero: /notes/ln-02/hero.png
 heroAlt: "Title card: 1,775 dead entities before, 2 after one cleanup"
 topic: Home Assistant
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7525943081481965568/
 ---
 
 Before I could dive into my lab, I needed to get it healthy, and that meant fixing the smart home first. Remember, the most important KPI in this house is the [WAF](/notes/ln-01-mac-minis-heating-the-room/).
