@@ -39,10 +39,8 @@ I think most of us carry a little imposter syndrome. We're trying to be the smar
 
 And if it nudges you to put down the doomscroll and pick up a new toy, or dust off the one sitting in your drawer, even better. If you're not having fun with technology, why do you work in it?
 
-Next Tuesday: my house was tracking 1,775 things that no longer existed.
+Next up: [my house was tracking 1,775 things that no longer existed](/notes/ln-02-1775-things/).
 
 What's gathering dust in your drawer right now? Tell me in the comments.
 
 -Kyle
-
-*Built with an AI pair doing most of the typing. Reviewed, sanitised and posted by a human.*
