@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Opening Obsidian</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 32rem; margin: 4rem auto; padding: 0 16px; }
+  a { word-break: break-all; }
+</style>
+</head>
+<body>
+<p id="msg">Opening Obsidian…</p>
+<p><a id="link" hidden>Open in Obsidian</a></p>
+<script>
+  // Hands a link like /open/#v=<vault>&f=<file> to the Obsidian app on this computer.
+  // Everything after "#" stays in the browser and is never sent to the server.
+  (function () {
+    var p = new URLSearchParams(location.hash.slice(1));
+    var v = p.get('v'), f = p.get('f');
+    var msg = document.getElementById('msg');
+    if (!v || !f) { msg.textContent = 'Nothing to open.'; return; }
+    var url = 'obsidian://open?vault=' + encodeURIComponent(v) + '&file=' + encodeURIComponent(f);
+    var a = document.getElementById('link');
+    a.href = url; a.hidden = false;
+    msg.textContent = 'Opening Obsidian. If nothing happens, use the link below. It only works on a computer that has this vault in Obsidian.';
+    location.replace(url);
+  })();
+</script>
+</body>
+</html>
