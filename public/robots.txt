@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /open/
 
 Sitemap: https://kyleprins.com/sitemap-index.xml
