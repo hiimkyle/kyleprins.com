@@ -6,6 +6,7 @@ description: Three automations in my house stopped working and none of them said
 hero: /notes/ln-03/hero.png
 heroAlt: "Title card: the rule said off under 40 W, the amp idles at about 66 W, now it turns off after 30 minutes with no AirPlay"
 topic: Home Assistant
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7528450080677404672/
 ---
 
 No alerts means everything's working, right? Nope.
