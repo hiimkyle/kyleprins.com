@@ -6,6 +6,7 @@ description: An AI rewrote 44 of the automations that run my house with the same
 hero: /notes/ln-04/hero.png
 heroAlt: "Title card: 117 device references converted, each write checked against a dry run"
 topic: AI
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7530986333566189568/
 ---
 
 Confession: I let an AI rewrite 44 of the automations that run my house. Before you ask, yes, the lights still work. That part was the leash, not luck.
